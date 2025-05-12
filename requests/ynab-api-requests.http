@@ -1,18 +1,18 @@
 @baseUrl = https://api.youneedabudget.com/v1
-@apiKey = {{$dotenv YNAB_API_KEY}}
+@apiToken = {{$dotenv YNAB_API_TOKEN}}
 @budgetId = {{$dotenv BUDGET_ID}}
 
 # @name getUser
 ### Get User Info
 GET {{baseUrl}}/user
-Authorization: Bearer {{apiKey}}
+Authorization: Bearer {{apiToken}}
 
 # @name getBudgets
 ### Get All Budgets
 GET {{baseUrl}}/budgets
-Authorization: Bearer {{apiKey}}
+Authorization: Bearer {{apiToken}}
 
 # @name getBudgetDetails
 ### Get Budget Details
 GET {{baseUrl}}/budgets/{{budgetId}}
-Authorization: Bearer {{apiKey}}
+Authorization: Bearer {{apiToken}}

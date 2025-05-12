@@ -1,10 +1,12 @@
 {
-  "inputs": [{
-    "id": "ynab-api-key",
-    "type": "promptString",
-    "password": true,
-    "description": "Enter your YNAB API Key"
-  }],
+  "inputs": [
+    {
+      "id": "ynab-api-token",
+      "type": "promptString",
+      "password": true,
+      "description": "Enter your YNAB API Token"
+    }
+  ],
   "servers": {
     "ynab": {
       "command": "dotnet",
@@ -14,7 +16,7 @@
         "${workspaceFolder}/src/YnabMcpServer/YnabMcpServer.csproj"
       ],
       "env": {
-        "YNAB_API_KEY": "${input:ynab-api-key}"
+        "YNAB_API_TOKEN": "${input:ynab-api-token}"
       }
     }
   }

@@ -2,10 +2,10 @@
 
 # Script to create a .env file for YNAB API requests
 
-# Read the API key from the user securely
-$apiKey = Read-Host "Enter your YNAB API Key" -AsSecureString
-$BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($apiKey)
-$plainApiKey = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+# Read the API token from the user securely
+$apiToken = Read-Host "Enter your YNAB API Token" -AsSecureString
+$BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($apiToken)
+$plainApiToken = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
 [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
 
 # Prompt for budget ID (with default)
@@ -20,8 +20,8 @@ $envContent = @"
 # YNAB API environment variables
 # This file should be excluded from source control
 
-# Your YNAB API key
-YNAB_API_KEY=$plainApiKey
+# Your YNAB API token
+YNAB_API_TOKEN=$plainApiToken
 
 # Budget ID
 BUDGET_ID=$budgetId

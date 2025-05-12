@@ -18,6 +18,13 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false)
     .AddJsonFile("appsettings.Development.json", optional: true)
     .AddEnvironmentVariables();
 
+// Check for API token in environment variables
+var apiToken = builder.Configuration["YNAB_API_TOKEN"] ?? builder.Configuration["YnabApi:ApiToken"];
+if (!string.IsNullOrEmpty(apiToken))
+{
+    builder.Configuration["YnabApi:ApiToken"] = apiToken;
+}
+
 // Register MCP server
 builder.Services.AddMcpServer()
     .WithStdioServerTransport()
