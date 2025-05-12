@@ -36,6 +36,10 @@ ScaffoldingReadMe.txt
 # NuGet Symbol Packages
 *.snupkg
 
+# REST Client environment files with secrets
+*.rest-client.env.json
+*.http-client.env.json
+
 # Others
 ~$*
 *~
@@ -52,3 +56,8 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# API & Environment files
+**/.env
+**/local.settings.json
+**/secrets.json
