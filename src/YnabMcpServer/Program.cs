@@ -6,19 +6,35 @@ using YnabMcpServer.Generated.YnabApi;
 using YnabMcpServer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
+// Create a host builder with configuration from appsettings.json
 var builder = Host.CreateEmptyApplicationBuilder(settings: null);
 
+// Configure host with configuration
+builder.Configuration.AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile("appsettings.Development.json", optional: true)
+    .AddEnvironmentVariables();
+
+// Register MCP server
 builder.Services.AddMcpServer()
     .WithStdioServerTransport()
     .WithToolsFromAssembly();
 
-// Register YNAB API configuration and client
-builder.Services.AddSingleton<IYnabApiConfiguration, YnabApiConfiguration>();
-builder.Services.AddHttpClient<IClient, Client>((serviceProvider, client) =>
+// Register YNAB API configuration using IOptions pattern
+builder.Services.Configure<YnabApiConfiguration>(
+    builder.Configuration.GetSection(YnabApiConfiguration.SectionName));
+
+// Register HttpClient
+builder.Services.AddSingleton(sp =>
 {
-    var config = serviceProvider.GetRequiredService<IYnabApiConfiguration>();
-    client.BaseAddress = new Uri(config.BaseUrl);
+    // Get options directly
+    var options = sp.GetRequiredService<IOptions<YnabApiConfiguration>>();
+    var config = options.Value;
+
+    var client = new HttpClient() { BaseAddress = new Uri(config.BaseUrl) };
+    client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("YnabMcpServer", "1.0"));
 
     if (!string.IsNullOrEmpty(config.ApiToken))
     {
@@ -26,7 +42,18 @@ builder.Services.AddHttpClient<IClient, Client>((serviceProvider, client) =>
     }
 
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-    client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("YnabMcpServer", "1.0"));
+    return client;
+});
+
+// Register YNAB API client
+builder.Services.AddTransient<IClient>(sp =>
+{
+    // Get options directly
+    var options = sp.GetRequiredService<IOptions<YnabApiConfiguration>>();
+    var config = options.Value;
+
+    var httpClient = sp.GetRequiredService<HttpClient>();
+    return new Client(config, httpClient);
 });
 
 var app = builder.Build();

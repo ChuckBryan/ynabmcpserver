@@ -16,7 +16,7 @@ public static class YnabHttpClientExtensions
     /// <param name="services">The service collection</param>
     /// <param name="configureClient">Action to configure the HTTP client</param>
     /// <returns>The service collection</returns>
-    public static IServiceCollection AddYnabHttpClient(this IServiceCollection services, Action<HttpClient> configureClient = null)
+    public static IServiceCollection AddYnabHttpClient(this IServiceCollection services, Action<HttpClient>? configureClient = null)
     {
         services.AddSingleton<IYnabApiConfiguration, YnabApiConfiguration>(); services.AddHttpClient("YnabApi", (sp, client) =>
         {

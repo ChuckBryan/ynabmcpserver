@@ -5,6 +5,8 @@ namespace YnabMcpServer;
 /// </summary>
 public class YnabApiConfiguration : IYnabApiConfiguration
 {
+    public const string SectionName = "YnabApi";
+
     public string BaseUrl { get; set; } = "https://api.ynab.com/v1";
     public string ApiToken { get; set; } = string.Empty;
 }

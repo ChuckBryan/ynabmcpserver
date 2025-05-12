@@ -15,9 +15,20 @@ public partial class YnabHttpClientBase : IYnabHttpClient
     {
         get { return _configuration.BaseUrl; }
         set { _configuration.BaseUrl = value; }
+    }    // Constructor expected by NSwag-generated code
+    public YnabHttpClientBase(IYnabApiConfiguration configuration)
+    {
+        _configuration = configuration;
+        _httpClient = new HttpClient();
+        _settings = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        };
     }
 
-    public YnabHttpClientBase(HttpClient httpClient, IYnabApiConfiguration configuration)
+    public YnabHttpClientBase(IYnabApiConfiguration configuration, HttpClient httpClient)
     {
         _httpClient = httpClient;
         _configuration = configuration;
