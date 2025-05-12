@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UserSecretsId>e81b0a88-74d8-4bd9-b0ba-f281c20ac321</UserSecretsId>
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+    <ContainerRepository>swampyfox/ynabmcp</ContainerRepository>
+    <ContainerFamily>alpine</ContainerFamily>
+    <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
