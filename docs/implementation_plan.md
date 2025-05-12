@@ -31,6 +31,7 @@ The YnabMcpServer will be a .NET-based implementation of the Model Context Proto
    - Set up the project with proper folder organization
    - Configure dependencies and NuGet packages
    - Create initial server entry point
+   - Use the `Quickstart` instructions from the MCP SDK to set up the server using C# and .NET 9.0
 
 2. Generate YNAB API client from OpenAPI specification
 
