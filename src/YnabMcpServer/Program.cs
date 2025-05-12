@@ -3,11 +3,12 @@ using Microsoft.Extensions.Hosting;
 using ModelContextProtocol;
 using System.Net.Http.Headers;
 using YnabMcpServer.Generated.YnabApi;
-using YnabMcpServer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using YnabMcpServer.Configuration;
+using YnabMcpServer.Services;
 
 // Create a host builder with configuration from appsettings.json
 var builder = Host.CreateEmptyApplicationBuilder(settings: null);

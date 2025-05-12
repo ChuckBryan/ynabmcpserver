@@ -45,7 +45,9 @@
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "additionalNamespaceUsages": [
         "System.Text.Json",
-        "System.Text.Json.Serialization"
+        "System.Text.Json.Serialization",
+        "YnabMcpServer.Services",
+        "YnabMcpServer.Configuration"
       ],
       "additionalContractNamespaceUsages": [],
       "generateOptionalParameters": false,
