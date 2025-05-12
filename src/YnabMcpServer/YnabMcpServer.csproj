@@ -9,7 +9,26 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
     <PackageReference Include="ModelContextProtocol" Version="0.1.0-preview.13" />
+    <PackageReference Include="NSwag.MSBuild" Version="14.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="nswag.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Generated\YnabApi\" />
+  </ItemGroup>  <!-- NSwag code generation -->
+  <Target Name="NSwag" BeforeTargets="PrepareForBuild">
+    <Exec Command="$(NSwagExe) run nswag.json" IgnoreExitCode="false" />
+  </Target>
 
 </Project>
