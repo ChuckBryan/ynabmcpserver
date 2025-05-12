@@ -7,11 +7,13 @@ The YnabMcpServer will be a .NET-based implementation of the Model Context Proto
 ## Core Components
 
 1. **YNAB API Integration**
-   - HTTP Client for connecting to YNAB's REST API
+
+   - Auto-generated client from OpenAPI specification
    - Authentication management with YNAB access tokens
-   - Data models that map to YNAB entities (budgets, accounts, transactions, categories)
+   - Extensions and wrappers for the generated code as needed
 
 2. **MCP Server Implementation**
+
    - Server configuration and initialization
    - Tool definitions for YNAB operations
    - Proper error handling and response formatting
@@ -22,17 +24,19 @@ The YnabMcpServer will be a .NET-based implementation of the Model Context Proto
 
 ## Implementation Steps
 
-### Phase 1: Basic Setup & Authentication
+### Phase 1: Basic Setup & API Client Generation
 
 1. Create a new .NET project structure
+
    - Set up the project with proper folder organization
    - Configure dependencies and NuGet packages
    - Create initial server entry point
 
-2. Implement YNAB API client
-   - Create models for YNAB API responses
-   - Build service classes for API interactions
-   - Implement authentication handling
+2. Generate YNAB API client from OpenAPI specification
+
+   - Use OpenAPI Generator or NSwag to generate client code
+   - Download the OpenAPI spec from YNAB (`https://api.ynab.com/papi/open_api_spec.yaml`)
+   - Generate C# client library with models, endpoints, and authentication
 
 3. Create basic MCP server structure
    - Implement required MCP interfaces
@@ -44,15 +48,18 @@ The YnabMcpServer will be a .NET-based implementation of the Model Context Proto
 Implement the following MCP tools for key YNAB functionality:
 
 1. **Budget Management Tools**:
+
    - `GetBudgets`: List all budgets
    - `GetBudgetDetails`: Get details of a specific budget
    - `GetBudgetSettings`: Get settings for a specific budget
 
 2. **Account Management Tools**:
+
    - `GetAccounts`: List accounts in a budget
    - `GetAccountDetails`: Get details of a specific account
 
 3. **Transaction Management Tools**:
+
    - `GetTransactions`: List transactions with optional filtering
    - `CreateTransaction`: Create a new transaction
    - `UpdateTransaction`: Update an existing transaction
@@ -64,10 +71,12 @@ Implement the following MCP tools for key YNAB functionality:
 ### Phase 3: Advanced Features
 
 1. **Analysis Tools**:
+
    - `AnalyzeSpending`: Analyze spending patterns over time
    - `GetMonthlyReport`: Generate monthly spending/budgeting report
 
 2. **Budget Planning Tools**:
+
    - `UpdateCategoryBudget`: Update budget amount for a category
    - `PlanMonthlyBudget`: Help plan next month's budget based on historical data
 
@@ -78,11 +87,13 @@ Implement the following MCP tools for key YNAB functionality:
 ### Phase 4: Refinement & Testing
 
 1. **Error Handling & Security**
+
    - Implement comprehensive error handling
    - Add logging for debugging and monitoring
    - Ensure secure handling of API tokens
 
 2. **Testing**
+
    - Unit tests for core components
    - Integration tests with YNAB API
    - End-to-end testing with MCP clients
@@ -102,18 +113,18 @@ YnabMcpServer/
 │   ├── AppSettings.cs
 │   ├── YnabConfig.cs
 │   └── McpServerConfig.cs
+├── Generated/
+│   └── YnabApi/
+│       ├── Models/
+│       ├── Api/
+│       └── Client/
+├── Services/
+│   ├── YnabApiClientExtensions.cs
+│   └── AnalysisService.cs
 ├── Models/
-│   ├── YNAB/
-│   │   ├── Budget.cs
-│   │   ├── Account.cs
-│   │   ├── Transaction.cs
-│   │   └── Category.cs
 │   └── MCP/
 │       ├── ToolRequests.cs
 │       └── ToolResponses.cs
-├── Services/
-│   ├── YnabApiService.cs
-│   └── AnalysisService.cs
 ├── Tools/
 │   ├── BudgetTools.cs
 │   ├── AccountTools.cs
@@ -125,8 +136,8 @@ YnabMcpServer/
 
 ### Technology Stack
 
-- **.NET 9**: For core application development
-- **System.Net.Http**: For API requests to YNAB
+- **.NET 8**: For core application development
+- **NSwag** or **OpenAPI Generator**: For API client generation from OpenAPI spec
 - **MCP SDK**: For implementing the Model Context Protocol standard
 - **JSON.NET**: For handling JSON serialization/deserialization
 - **Microsoft.Extensions.Configuration**: For configuration management
@@ -135,6 +146,7 @@ YnabMcpServer/
 ## Deployment & Usage
 
 1. **Local Development Setup**:
+
    ```powershell
    dotnet restore
    dotnet build
@@ -142,6 +154,7 @@ YnabMcpServer/
    ```
 
 2. **Claude for Desktop Integration**:
+
    - Update Claude for Desktop configuration to include the YNAB MCP Server
    - Configure server path and startup parameters
 
@@ -152,7 +165,8 @@ YnabMcpServer/
 ## Next Steps
 
 1. Set up basic project structure
-2. Create YNAB API client with authentication
-3. Implement core MCP server functionality
-4. Begin implementing basic tools (GetBudgets, GetAccounts)
-5. Test with Claude for Desktop
+2. Download and verify the YNAB OpenAPI specification
+3. Generate YNAB API client using OpenAPI tools
+4. Implement core MCP server functionality
+5. Begin implementing basic tools using the generated client
+6. Test with Claude for Desktop
