@@ -35,7 +35,7 @@ The YnabMcpServer will be a .NET-based implementation of the Model Context Proto
 2. Generate YNAB API client from OpenAPI specification
 
    - Use OpenAPI Generator or NSwag to generate client code
-   - Download the OpenAPI spec from YNAB (`https://api.ynab.com/papi/open_api_spec.yaml`)
+   - Use the OpenAPI spec from YNAB that has been added to the docs folder(`docs/open_api_spec.yaml`)
    - Generate C# client library with models, endpoints, and authentication
 
 3. Create basic MCP server structure
