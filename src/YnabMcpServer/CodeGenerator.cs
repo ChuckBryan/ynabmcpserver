@@ -30,7 +30,7 @@ public class CodeGenerator
 
             // Get the root directory of the project
             var projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            while (!File.Exists(Path.Combine(projectDirectory, "YnabMcpServer.csproj")) && 
+            while (!File.Exists(Path.Combine(projectDirectory, "YnabMcpServer.csproj")) &&
                    Directory.GetParent(projectDirectory) != null)
             {
                 projectDirectory = Directory.GetParent(projectDirectory).FullName;

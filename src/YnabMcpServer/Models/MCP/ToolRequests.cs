@@ -57,7 +57,7 @@ public class GetTransactionsRequest : ToolRequestBase
     /// If specified, only transactions on or after this date will be included.
     /// </summary>
     public DateTimeOffset? SinceDate { get; set; }
-    
+
     /// <summary>
     /// The transaction type filter. Can be "uncategorized" or "unapproved".
     /// </summary>
@@ -78,7 +78,7 @@ public class UpdateTransactionRequest : ToolRequestBase
     /// The transaction ID to update.
     /// </summary>
     public string TransactionId { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// The transaction data to update.
     /// </summary>

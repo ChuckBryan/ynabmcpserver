@@ -32,14 +32,14 @@ public class TransactionTools
         {
             _logger.LogInformation("Getting transactions for budgetId={BudgetId}, sinceDate={SinceDate}, type={Type}",
                 request.BudgetId, request.SinceDate, request.Type);
-            
+
             var client = _ynabClientService.CreateAuthenticatedClient();
             var response = await client.GetTransactionsAsync(
-                request.BudgetId, 
-                request.SinceDate?.ToString("yyyy-MM-dd"), 
+                request.BudgetId,
+                request.SinceDate?.ToString("yyyy-MM-dd"),
                 request.Type,
                 null);
-            
+
             return ToolResponses.CreateJsonResponse(response.Data);
         }
         catch (Exception ex)
@@ -59,12 +59,12 @@ public class TransactionTools
         try
         {
             _logger.LogInformation("Creating transaction for budgetId={BudgetId}", request.BudgetId);
-            
+
             var client = _ynabClientService.CreateAuthenticatedClient();
-            
+
             // Convert the transaction dictionary to the appropriate SaveTransaction object
             // This will need to be handled based on the generated client's requirements
-            
+
             // For now, return an error since we'll need to implement this later
             return ToolResponses.CreateErrorResponse("Transaction creation is not yet implemented");
         }
@@ -86,12 +86,12 @@ public class TransactionTools
         {
             _logger.LogInformation("Updating transaction for budgetId={BudgetId}, transactionId={TransactionId}",
                 request.BudgetId, request.TransactionId);
-            
+
             var client = _ynabClientService.CreateAuthenticatedClient();
-            
+
             // Convert the transaction dictionary to the appropriate SaveTransaction object
             // This will need to be handled based on the generated client's requirements
-            
+
             // For now, return an error since we'll need to implement this later
             return ToolResponses.CreateErrorResponse("Transaction update is not yet implemented");
         }

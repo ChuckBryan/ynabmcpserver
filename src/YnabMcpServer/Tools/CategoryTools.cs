@@ -30,10 +30,10 @@ public class CategoryTools
         try
         {
             _logger.LogInformation("Getting categories for budgetId={BudgetId}", request.BudgetId);
-            
+
             var client = _ynabClientService.CreateAuthenticatedClient();
             var response = await client.GetCategoriesAsync(request.BudgetId, null);
-            
+
             return ToolResponses.CreateJsonResponse(response.Data);
         }
         catch (Exception ex)
@@ -52,17 +52,17 @@ public class CategoryTools
     {
         try
         {
-            _logger.LogInformation("Getting category details for budgetId={BudgetId}, categoryId={CategoryId}", 
+            _logger.LogInformation("Getting category details for budgetId={BudgetId}, categoryId={CategoryId}",
                 request.BudgetId, request.CategoryId);
-            
+
             var client = _ynabClientService.CreateAuthenticatedClient();
             var response = await client.GetCategoryByIdAsync(request.BudgetId, request.CategoryId);
-            
+
             return ToolResponses.CreateJsonResponse(response.Data);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting category details for budgetId={BudgetId}, categoryId={CategoryId}", 
+            _logger.LogError(ex, "Error getting category details for budgetId={BudgetId}, categoryId={CategoryId}",
                 request.BudgetId, request.CategoryId);
             return ToolResponses.CreateErrorResponse(ex.Message);
         }

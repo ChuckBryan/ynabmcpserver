@@ -31,11 +31,11 @@ public class YnabApiClientService
 
         // Set the base URL
         httpClient.BaseAddress = new Uri(_config.ApiBaseUrl);
-        
+
         // Set up authentication
-        httpClient.DefaultRequestHeaders.Authorization = 
+        httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", _config.ApiToken);
-        
+
         // Create the client
         return new YnabClient(httpClient);
     }
@@ -56,10 +56,10 @@ public static class YnabClientExtensions
     {
         if (client.HttpClient is HttpClient httpClient)
         {
-            httpClient.DefaultRequestHeaders.Authorization = 
+            httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", apiToken);
         }
-        
+
         return client;
     }
 }

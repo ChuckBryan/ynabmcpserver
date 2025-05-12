@@ -27,18 +27,18 @@ public class Program
             })
             .Configure<YnabConfig>(configuration.GetSection("YnabConfig"))
             .Configure<McpServerConfig>(configuration.GetSection("McpServerConfig"))
-            
+
             // Register services
             .AddTransient<CodeGenerator>()
             .AddHttpClient()
             .AddSingleton<YnabApiClientService>()
-            
+
             // Register tools
             .AddSingleton<BudgetTools>()
             .AddSingleton<AccountTools>()
             .AddSingleton<TransactionTools>()
             .AddSingleton<CategoryTools>()
-            
+
             // Register server
             .AddSingleton<YnabMcpServer>()
             .BuildServiceProvider();
@@ -55,10 +55,10 @@ public class Program
 
             // Get server instance
             var server = serviceProvider.GetRequiredService<YnabMcpServer>();
-            
+
             // Initialize server
             await server.InitializeAsync();
-            
+
             // Keep application running
             logger.LogInformation("Server is running. Press Ctrl+C to exit.");
             await Task.Delay(Timeout.InfiniteTimeSpan);

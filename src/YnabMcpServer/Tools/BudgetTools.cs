@@ -31,10 +31,10 @@ public class BudgetTools
         try
         {
             _logger.LogInformation("Getting budgets with includeAccounts={IncludeAccounts}", request.IncludeAccounts);
-            
+
             var client = _ynabClientService.CreateAuthenticatedClient();
             var response = await client.GetBudgetsAsync(request.IncludeAccounts);
-            
+
             return ToolResponses.CreateJsonResponse(response.Data);
         }
         catch (Exception ex)
@@ -54,10 +54,10 @@ public class BudgetTools
         try
         {
             _logger.LogInformation("Getting budget details for budgetId={BudgetId}", request.BudgetId);
-            
+
             var client = _ynabClientService.CreateAuthenticatedClient();
             var response = await client.GetBudgetByIdAsync(request.BudgetId, null);
-            
+
             return ToolResponses.CreateJsonResponse(response.Data);
         }
         catch (Exception ex)
@@ -77,10 +77,10 @@ public class BudgetTools
         try
         {
             _logger.LogInformation("Getting budget settings for budgetId={BudgetId}", request.BudgetId);
-            
+
             var client = _ynabClientService.CreateAuthenticatedClient();
             var response = await client.GetBudgetSettingsByIdAsync(request.BudgetId);
-            
+
             return ToolResponses.CreateJsonResponse(response.Data);
         }
         catch (Exception ex)

@@ -44,7 +44,7 @@ public class YnabMcpServer
     public async Task InitializeAsync()
     {
         _logger.LogInformation("Initializing YNAB MCP Server...");
-        
+
         // Create server definition
         var serverDefinition = new ServerDefinition
         {
@@ -56,22 +56,22 @@ public class YnabMcpServer
                 Resources = new Dictionary<string, ResourceDefinition>(),
             }
         };
-        
+
         // Initialize server
         _server = new McpServer(serverDefinition);
-        
+
         // Register tool handlers
         RegisterToolHandlers(_server);
-        
+
         // Set up transport
         var transport = GetTransport(_mcpConfig.TransportType);
-        
+
         // Connect server to transport
         await _server.ConnectAsync(transport);
-        
+
         _logger.LogInformation("YNAB MCP Server initialized successfully");
     }
-    
+
     private Dictionary<string, ToolDefinition> CreateToolDefinitions()
     {
         return new Dictionary<string, ToolDefinition>
@@ -102,9 +102,9 @@ public class YnabMcpServer
                         type = "object",
                         properties = new
                         {
-                            budgetId = new 
-                            { 
-                                type = "string", 
+                            budgetId = new
+                            {
+                                type = "string",
                                 description = "The ID of the budget. Use 'last-used' for the last used budget or 'default' for the default budget."
                             }
                         },
@@ -122,9 +122,9 @@ public class YnabMcpServer
                         type = "object",
                         properties = new
                         {
-                            budgetId = new 
-                            { 
-                                type = "string", 
+                            budgetId = new
+                            {
+                                type = "string",
                                 description = "The ID of the budget. Use 'last-used' for the last used budget or 'default' for the default budget."
                             }
                         },
@@ -144,9 +144,9 @@ public class YnabMcpServer
                         type = "object",
                         properties = new
                         {
-                            budgetId = new 
-                            { 
-                                type = "string", 
+                            budgetId = new
+                            {
+                                type = "string",
                                 description = "The ID of the budget. Use 'last-used' for the last used budget or 'default' for the default budget."
                             }
                         },
@@ -164,9 +164,9 @@ public class YnabMcpServer
                         type = "object",
                         properties = new
                         {
-                            budgetId = new 
-                            { 
-                                type = "string", 
+                            budgetId = new
+                            {
+                                type = "string",
                                 description = "The ID of the budget. Use 'last-used' for the last used budget or 'default' for the default budget."
                             },
                             accountId = new
@@ -191,9 +191,9 @@ public class YnabMcpServer
                         type = "object",
                         properties = new
                         {
-                            budgetId = new 
-                            { 
-                                type = "string", 
+                            budgetId = new
+                            {
+                                type = "string",
                                 description = "The ID of the budget. Use 'last-used' for the last used budget or 'default' for the default budget."
                             },
                             sinceDate = new
@@ -216,7 +216,7 @@ public class YnabMcpServer
             
             // Category Tools
             {
-                "get-categories",
+    "get-categories",
                 new ToolDefinition
                 {
                     Description = "List all categories for a budget grouped by category group",
@@ -225,9 +225,9 @@ public class YnabMcpServer
                         type = "object",
                         properties = new
                         {
-                            budgetId = new 
-                            { 
-                                type = "string", 
+                            budgetId = new
+                            {
+                                type = "string",
                                 description = "The ID of the budget. Use 'last-used' for the last used budget or 'default' for the default budget."
                             }
                         },
@@ -236,7 +236,7 @@ public class YnabMcpServer
                 }
             },
             {
-                "get-category-details",
+    "get-category-details",
                 new ToolDefinition
                 {
                     Description = "Get detailed information about a specific category",
@@ -245,9 +245,9 @@ public class YnabMcpServer
                         type = "object",
                         properties = new
                         {
-                            budgetId = new 
-                            { 
-                                type = "string", 
+                            budgetId = new
+                            {
+                                type = "string",
                                 description = "The ID of the budget. Use 'last-used' for the last used budget or 'default' for the default budget."
                             },
                             categoryId = new
@@ -264,68 +264,68 @@ public class YnabMcpServer
     }
     
     private void RegisterToolHandlers(McpServer server)
+{
+    // Register Budget Tools
+    server.RegisterToolHandler("get-budgets", async (toolRequest, cancellationToken) =>
     {
-        // Register Budget Tools
-        server.RegisterToolHandler("get-budgets", async (toolRequest, cancellationToken) =>
-        {
-            var request = JsonSerializer.Deserialize<GetBudgetsRequest>(toolRequest.Parameters) ?? new GetBudgetsRequest();
-            return await _budgetTools.GetBudgetsAsync(request);
-        });
-        
-        server.RegisterToolHandler("get-budget-details", async (toolRequest, cancellationToken) =>
-        {
-            var request = JsonSerializer.Deserialize<GetBudgetDetailsRequest>(toolRequest.Parameters) ?? new GetBudgetDetailsRequest();
-            return await _budgetTools.GetBudgetDetailsAsync(request);
-        });
-        
-        server.RegisterToolHandler("get-budget-settings", async (toolRequest, cancellationToken) =>
-        {
-            var request = JsonSerializer.Deserialize<GetBudgetSettingsRequest>(toolRequest.Parameters) ?? new GetBudgetSettingsRequest();
-            return await _budgetTools.GetBudgetSettingsAsync(request);
-        });
-        
-        // Register Account Tools
-        server.RegisterToolHandler("get-accounts", async (toolRequest, cancellationToken) =>
-        {
-            var request = JsonSerializer.Deserialize<GetAccountsRequest>(toolRequest.Parameters) ?? new GetAccountsRequest();
-            return await _accountTools.GetAccountsAsync(request);
-        });
-        
-        server.RegisterToolHandler("get-account-details", async (toolRequest, cancellationToken) =>
-        {
-            var request = JsonSerializer.Deserialize<GetAccountDetailsRequest>(toolRequest.Parameters) ?? new GetAccountDetailsRequest();
-            return await _accountTools.GetAccountDetailsAsync(request);
-        });
-        
-        // Register Transaction Tools
-        server.RegisterToolHandler("get-transactions", async (toolRequest, cancellationToken) =>
-        {
-            var request = JsonSerializer.Deserialize<GetTransactionsRequest>(toolRequest.Parameters) ?? new GetTransactionsRequest();
-            return await _transactionTools.GetTransactionsAsync(request);
-        });
-        
-        // Register Category Tools
-        server.RegisterToolHandler("get-categories", async (toolRequest, cancellationToken) =>
-        {
-            var request = JsonSerializer.Deserialize<GetCategoriesRequest>(toolRequest.Parameters) ?? new GetCategoriesRequest();
-            return await _categoryTools.GetCategoriesAsync(request);
-        });
-        
-        server.RegisterToolHandler("get-category-details", async (toolRequest, cancellationToken) =>
-        {
-            var request = JsonSerializer.Deserialize<GetCategoryDetailsRequest>(toolRequest.Parameters) ?? new GetCategoryDetailsRequest();
-            return await _categoryTools.GetCategoryDetailsAsync(request);
-        });
-        
-        _logger.LogInformation("Tool handlers registered successfully");
-    }
-    
-    private IServerTransport GetTransport(string transportType)
+        var request = JsonSerializer.Deserialize<GetBudgetsRequest>(toolRequest.Parameters) ?? new GetBudgetsRequest();
+        return await _budgetTools.GetBudgetsAsync(request);
+    });
+
+    server.RegisterToolHandler("get-budget-details", async (toolRequest, cancellationToken) =>
     {
-        return transportType.ToLowerInvariant() switch
-        {
-            "stdio" => new StdioServerTransport(),
-            _ => throw new ArgumentException($"Unsupported transport type: {transportType}")
-        };
-    }
+        var request = JsonSerializer.Deserialize<GetBudgetDetailsRequest>(toolRequest.Parameters) ?? new GetBudgetDetailsRequest();
+        return await _budgetTools.GetBudgetDetailsAsync(request);
+    });
+
+    server.RegisterToolHandler("get-budget-settings", async (toolRequest, cancellationToken) =>
+    {
+        var request = JsonSerializer.Deserialize<GetBudgetSettingsRequest>(toolRequest.Parameters) ?? new GetBudgetSettingsRequest();
+        return await _budgetTools.GetBudgetSettingsAsync(request);
+    });
+
+    // Register Account Tools
+    server.RegisterToolHandler("get-accounts", async (toolRequest, cancellationToken) =>
+    {
+        var request = JsonSerializer.Deserialize<GetAccountsRequest>(toolRequest.Parameters) ?? new GetAccountsRequest();
+        return await _accountTools.GetAccountsAsync(request);
+    });
+
+    server.RegisterToolHandler("get-account-details", async (toolRequest, cancellationToken) =>
+    {
+        var request = JsonSerializer.Deserialize<GetAccountDetailsRequest>(toolRequest.Parameters) ?? new GetAccountDetailsRequest();
+        return await _accountTools.GetAccountDetailsAsync(request);
+    });
+
+    // Register Transaction Tools
+    server.RegisterToolHandler("get-transactions", async (toolRequest, cancellationToken) =>
+    {
+        var request = JsonSerializer.Deserialize<GetTransactionsRequest>(toolRequest.Parameters) ?? new GetTransactionsRequest();
+        return await _transactionTools.GetTransactionsAsync(request);
+    });
+
+    // Register Category Tools
+    server.RegisterToolHandler("get-categories", async (toolRequest, cancellationToken) =>
+    {
+        var request = JsonSerializer.Deserialize<GetCategoriesRequest>(toolRequest.Parameters) ?? new GetCategoriesRequest();
+        return await _categoryTools.GetCategoriesAsync(request);
+    });
+
+    server.RegisterToolHandler("get-category-details", async (toolRequest, cancellationToken) =>
+    {
+        var request = JsonSerializer.Deserialize<GetCategoryDetailsRequest>(toolRequest.Parameters) ?? new GetCategoryDetailsRequest();
+        return await _categoryTools.GetCategoryDetailsAsync(request);
+    });
+
+    _logger.LogInformation("Tool handlers registered successfully");
+}
+
+private IServerTransport GetTransport(string transportType)
+{
+    return transportType.ToLowerInvariant() switch
+    {
+        "stdio" => new StdioServerTransport(),
+        _ => throw new ArgumentException($"Unsupported transport type: {transportType}")
+    };
+}
 }

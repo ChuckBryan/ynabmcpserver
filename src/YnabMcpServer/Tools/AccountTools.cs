@@ -30,10 +30,10 @@ public class AccountTools
         try
         {
             _logger.LogInformation("Getting accounts for budgetId={BudgetId}", request.BudgetId);
-            
+
             var client = _ynabClientService.CreateAuthenticatedClient();
             var response = await client.GetAccountsAsync(request.BudgetId, null);
-            
+
             return ToolResponses.CreateJsonResponse(response.Data);
         }
         catch (Exception ex)
@@ -52,17 +52,17 @@ public class AccountTools
     {
         try
         {
-            _logger.LogInformation("Getting account details for budgetId={BudgetId}, accountId={AccountId}", 
+            _logger.LogInformation("Getting account details for budgetId={BudgetId}, accountId={AccountId}",
                 request.BudgetId, request.AccountId);
-            
+
             var client = _ynabClientService.CreateAuthenticatedClient();
             var response = await client.GetAccountByIdAsync(request.BudgetId, Guid.Parse(request.AccountId));
-            
+
             return ToolResponses.CreateJsonResponse(response.Data);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting account details for budgetId={BudgetId}, accountId={AccountId}", 
+            _logger.LogError(ex, "Error getting account details for budgetId={BudgetId}, accountId={AccountId}",
                 request.BudgetId, request.AccountId);
             return ToolResponses.CreateErrorResponse(ex.Message);
         }
