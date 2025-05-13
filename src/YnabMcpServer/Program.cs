@@ -62,3 +62,4 @@ builder.Services.AddTransient<IClient>(sp =>
 var app = builder.Build();
 
 await app.RunAsync();
+
