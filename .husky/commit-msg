@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # Skip commitlint for CI automation or semantic-release
 if [ -n "$HUSKY_SKIP_HOOKS" ] || [ -n "$SEMANTIC_RELEASE" ] || [ -n "$CI" ]; then
   echo "Skipping commitlint in CI/CD environment or for semantic-release commits"
