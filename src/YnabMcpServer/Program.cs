@@ -34,33 +34,28 @@ builder.Services.AddMcpServer()
 builder.Services.Configure<YnabApiConfiguration>(
     builder.Configuration.GetSection(YnabApiConfiguration.SectionName));
 
-// Register HttpClient
+// Register concrete YnabApiConfiguration
 builder.Services.AddSingleton(sp =>
 {
-    // Get options directly
     var options = sp.GetRequiredService<IOptions<YnabApiConfiguration>>();
-    var config = options.Value;
+    return options.Value;
+});
 
-    var client = new HttpClient() { BaseAddress = new Uri(config.BaseUrl) };
+// Register IYnabApiConfiguration interface
+builder.Services.AddSingleton<IYnabApiConfiguration>(sp =>
+    sp.GetRequiredService<YnabApiConfiguration>());
+
+// Register HttpClient using the extension method
+builder.Services.AddYnabHttpClient(client =>
+{
     client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("YnabMcpServer", "1.0"));
-
-    if (!string.IsNullOrEmpty(config.ApiToken))
-    {
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", config.ApiToken);
-    }
-
-    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-    return client;
 });
 
 // Register YNAB API client
 builder.Services.AddTransient<IClient>(sp =>
 {
-    // Get options directly
-    var options = sp.GetRequiredService<IOptions<YnabApiConfiguration>>();
-    var config = options.Value;
-
-    var httpClient = sp.GetRequiredService<HttpClient>();
+    var httpClient = sp.GetRequiredService<IHttpClientFactory>().CreateClient("YnabApi");
+    var config = sp.GetRequiredService<YnabApiConfiguration>();
     return new Client(config, httpClient);
 });
 

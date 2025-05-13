@@ -15,11 +15,11 @@ public static class YnabHttpClientExtensions
     /// Adds YNAB HTTP client to the service collection
     /// </summary>
     /// <param name="services">The service collection</param>
-    /// <param name="configureClient">Action to configure the HTTP client</param>
-    /// <returns>The service collection</returns>
+    /// <param name="configureClient">Action to configure the HTTP client</param>    /// <returns>The service collection</returns>
     public static IServiceCollection AddYnabHttpClient(this IServiceCollection services, Action<HttpClient>? configureClient = null)
     {
-        services.AddSingleton<IYnabApiConfiguration, YnabApiConfiguration>(); services.AddHttpClient("YnabApi", (sp, client) =>
+        // Note: IYnabApiConfiguration should already be registered prior to calling this extension method
+        services.AddHttpClient("YnabApi", (sp, client) =>
         {
             var config = sp.GetRequiredService<IYnabApiConfiguration>();
             client.BaseAddress = new Uri(config.BaseUrl);
