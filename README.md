@@ -2,7 +2,7 @@
 
 A Model Context Protocol (MCP) server for integrating YNAB (You Need A Budget) with AI systems. This project allows AI assistants to securely access and analyze your YNAB financial data.
 
-[![Build](https://github.com/yourusername/YnabMcpServer/actions/workflows/build.yml/badge.svg)](https://github.com/yourusername/YnabMcpServer/actions/workflows/build.yml)
+[![Build](https://github.com/ChuckBryan/ynabmcpserver/actions/workflows/build.yml/badge.svg)](https://github.com/ChuckBryan/ynabmcpserver/actions/workflows/build.yml)
 [![Docker Image](https://img.shields.io/docker/v/swampyfox/ynabmcp?label=docker&sort=semver&style=flat-square)](https://hub.docker.com/r/swampyfox/ynabmcp)
 [![Platform](https://img.shields.io/badge/platform-linux%2Famd64%20%7C%20linux%2Farm64-lightgrey?style=flat-square)](https://hub.docker.com/r/swampyfox/ynabmcp/tags)
 
