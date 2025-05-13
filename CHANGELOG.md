@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/ChuckBryan/ynabmcpserver/compare/v1.5.0...v1.5.1) (2025-05-13)
+
+
+### Bug Fixes
+
+* improve formatting and readability in publish-docker.ps1 script ([414c747](https://github.com/ChuckBryan/ynabmcpserver/commit/414c74770042dcb834ea0ee188aa06511a313ac7))
+
 # [1.5.0](https://github.com/ChuckBryan/ynabmcpserver/compare/v1.4.0...v1.5.0) (2025-05-13)
 
 
