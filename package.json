@@ -1,0 +1,15 @@
+{
+  "name": "ynabmcpserver",
+  "version": "0.0.0-development",
+  "description": "YNAB Model Context Protocol Server",
+  "private": true,
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "semantic-release": "^22.0.12"
+  },
+  "scripts": {
+    "semantic-release": "semantic-release"
+  }
+}

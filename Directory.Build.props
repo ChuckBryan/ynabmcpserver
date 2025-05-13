@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <Authors>YnabMcpServer Contributors</Authors>
+    <Company>YnabMcpServer</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ChuckBryan/ynabmcpserver</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ChuckBryan/ynabmcpserver</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+</Project>
