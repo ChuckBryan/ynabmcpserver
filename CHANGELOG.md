@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/ChuckBryan/ynabmcpserver/compare/v1.3.0...v1.4.0) (2025-05-13)
+
+
+### Features
+
+* update Docker publishing configuration and enhance version handling in scripts ([9796e08](https://github.com/ChuckBryan/ynabmcpserver/commit/9796e08cb44b53761f2248d2b2bec8396f9a34ee))
+
 # [1.3.0](https://github.com/ChuckBryan/ynabmcpserver/compare/v1.2.0...v1.3.0) (2025-05-13)
 
 
