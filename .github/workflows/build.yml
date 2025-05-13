@@ -17,16 +17,18 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: 9.0.x      - name: Install NSwag CLI
+        run: |
+          dotnet tool install -g NSwag.ConsoleCore --version 14.0.3
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
-      - name: Install NSwag CLI
-        run: dotnet tool install -g NSwag.ConsoleCore --version 14.0.3
-
-      - name: Add dotnet tools to PATH
-        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
-      - name: Verify NSwag installation
-        run: nswag version
+      - name: Check for NSwag in PATH
+        run: |
+          # Debug: show where NSwag might be located
+          find $HOME -name nswag -type f 2>/dev/null || echo "NSwag executable not found in user directory"
+          
+          # Try running NSwag directly with full path
+          $HOME/.dotnet/tools/nswag version
 
       - name: Restore dependencies
         run: dotnet restore
