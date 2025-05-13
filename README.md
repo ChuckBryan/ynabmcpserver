@@ -126,7 +126,12 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+## Versioning and Release Process
+
+This project uses semantic-release for automated versioning and releases. See [VERSIONING.md](VERSIONING.md) for details on the commit message format and release process.
+
 ## Acknowledgments
 
 - [YNAB API](https://api.youneedabudget.com/)
 - [Model Context Protocol](https://modelcontextprotocol.github.io/)
+- [Semantic Release](https://github.com/semantic-release/semantic-release)
