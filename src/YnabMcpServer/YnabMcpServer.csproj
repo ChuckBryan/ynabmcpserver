@@ -5,9 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UserSecretsId>e81b0a88-74d8-4bd9-b0ba-f281c20ac321</UserSecretsId>
-    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
-    <ContainerRepository>swampyfox/ynabmcp</ContainerRepository>
-    <ContainerImageTag>1.1.0</ContainerImageTag>
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>    <ContainerRepository>swampyfox/ynabmcp</ContainerRepository>
+    <ContainerImageTag>latest</ContainerImageTag>
     <ContainerFamily>alpine</ContainerFamily>
     <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
   </PropertyGroup>
@@ -39,12 +38,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Generated\YnabApi\" />
   </ItemGroup>
 
-  <Target Name="NSwag" BeforeTargets="PrepareForBuild">
+  <!-- Only run NSwag client generation on local development, not in CI pipeline -->
+  <Target Name="NSwag" BeforeTargets="PrepareForBuild" Condition="'$(CI)' != 'true'">
     <Exec Command="$(NSwagExe) run nswag.json" IgnoreExitCode="false" />
   </Target>
 
