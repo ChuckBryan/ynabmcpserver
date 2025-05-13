@@ -6,6 +6,16 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/ChuckBryan/ynabmcpserver</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ChuckBryan/ynabmcpserver</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
+    <RepositoryType>git</RepositoryType>    <!-- Container configuration -->
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>    <ContainerRegistry>docker.io</ContainerRegistry>
+    <!-- Default to swampyfox if DockerUsername is not provided -->
+    <DockerUsername Condition="'$(DockerUsername)' == ''">swampyfox</DockerUsername>
+    <ContainerRepository>$(DockerUsername)/ynabmcp</ContainerRepository>
+    <ContainerImageTag>$(Version)</ContainerImageTag>
+    <ContainerFamily>alpine</ContainerFamily>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <ContainerEnvironmentVariable Include="YNAB_API_TOKEN" />
+  </ItemGroup>
 </Project>

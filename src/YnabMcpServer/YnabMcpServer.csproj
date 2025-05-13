@@ -1,17 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">  <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>    <Nullable>enable</Nullable>    
     <UserSecretsId>e81b0a88-74d8-4bd9-b0ba-f281c20ac321</UserSecretsId>
-    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
-    <ContainerRepository>swampyfox/ynabmcp</ContainerRepository>
-    <ContainerImageTag>latest</ContainerImageTag>
-    <ContainerFamily>alpine</ContainerFamily>
   </PropertyGroup>
-
   <ItemGroup>
-    <ContainerEnvironmentVariable Include="YNAB_API_TOKEN" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.4" />
