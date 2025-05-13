@@ -70,14 +70,6 @@ This MCP server implements a comprehensive set of tools for interacting with the
 
 ### Installation
 
-#### Option 1: Using Docker (Recommended)
-
-The YNAB MCP Server is available as a Docker image, making it easy to run without installing .NET locally:
-
-```powershell
-docker run -i --rm -e YNAB_API_TOKEN="your_token_here" swampyfox/ynabmcp:latest
-```
-
 **VS Code Integration with Docker**
 
 For VS Code users, a pre-configured `.vscode/mcp.json` file is included that makes it easy to run the server via Docker:
@@ -114,114 +106,6 @@ The `.vscode/mcp.json` configuration looks like this:
     }
   }
 }
-```
-
-#### Option 2: Local .NET Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/YnabMcpServer.git
-   cd YnabMcpServer
-   ```
-
-2. Build the project:
-
-   ```bash
-   dotnet build
-   ```
-
-3. Configure your YNAB API token:
-
-   You can either:
-
-   - Set it as an environment variable: `YNAB_API_TOKEN=your-token-here`
-   - Use the `.vscode/mcp.json` configuration when launching from VS Code
-   - Store it in `appsettings.json` or `appsettings.Development.json` (not recommended for production)
-
-4. Run the server:
-   ```bash
-   dotnet run --project src/YnabMcpServer/YnabMcpServer.csproj
-   ```
-
-### Using with Claude for Desktop
-
-#### When using Docker
-
-1. Make sure the Docker container is running
-2. Open Claude for Desktop
-3. Go to Settings > Tools > Add Local Tool Server
-4. Enter the following details:
-   - **Name**: YNAB MCP Server
-   - **URL**: http://localhost:4242 (default port, adjust if necessary)
-5. Click "Connect"
-6. You can now ask Claude about your YNAB data!
-
-#### When using local installation
-
-1. Make sure the local server is running
-2. Open Claude for Desktop
-3. Go to Settings > Tools > Add Local Tool Server
-4. Select your YnabMcpServer from the list
-5. You can now ask Claude about your YNAB data!
-
-Example queries:
-
-- "What's my current budget status?"
-- "How much did I spend on groceries last month?"
-- "Show me all my transactions with Jimmy John's"
-- "What's my income vs. expenses for the past 3 months?"
-
-## Docker Usage
-
-The YNAB MCP Server is available as a Docker image on Docker Hub: [swampyfox/ynabmcp](https://hub.docker.com/r/swampyfox/ynabmcp).
-
-### Basic Usage
-
-```powershell
-# Run interactively with automatic cleanup on exit
-docker run -i --rm `
-  -e YNAB_API_TOKEN="your_api_token_here" `
-  -p 4242:4242 `
-  swampyfox/ynabmcp:latest
-```
-
-### Persistent Deployment
-
-For a more persistent setup, you can run the container in detached mode:
-
-```powershell
-# Run in background
-docker run -d `
-  --name ynabmcp `
-  -e YNAB_API_TOKEN="your_api_token_here" `
-  -p 4242:4242 `
-  --restart unless-stopped `
-  swampyfox/ynabmcp:latest
-```
-
-### Docker Compose
-
-For easier management, create a `docker-compose.yml` file:
-
-```yaml
-version: "3"
-
-services:
-  ynabmcp:
-    image: swampyfox/ynabmcp:latest
-    container_name: ynabmcp
-    environment:
-      - YNAB_API_TOKEN=your_api_token_here
-    ports:
-      - "4242:4242"
-    restart: unless-stopped
-```
-
-Then start it with:
-
-```powershell
-docker-compose up -d
 ```
 
 ### Available Environment Variables
