@@ -12,43 +12,46 @@ $ErrorActionPreference = "Stop"
 $csprojPath = Join-Path $PSScriptRoot ".." "src" "YnabMcpServer" "YnabMcpServer.csproj"
 $dirBuildPropsPath = Join-Path $PSScriptRoot ".." "Directory.Build.props"
 
-# Update version in csproj file
-Write-Host "Updating version in $csprojPath to $Version"
+# Remove version from csproj file if it exists
+Write-Host "Removing version from $csprojPath (will use Directory.Build.props instead)"
 try {
-    # Load the csproj file
-    $xml = [xml](Get-Content $csprojPath)
-    
-    # Check if the Version property group exists, if not create it
-    $versionElement = $xml.Project.PropertyGroup.Version
-    
-    if ($null -eq $versionElement) {
-        # Get the first PropertyGroup or create one if it doesn't exist
-        $propertyGroup = $xml.Project.PropertyGroup
-        if ($null -eq $propertyGroup) {
-            $propertyGroup = $xml.CreateElement("PropertyGroup")
-            $xml.Project.AppendChild($propertyGroup)
-        } else {
-            # Make sure we're using the first PropertyGroup
-            if ($propertyGroup -is [array]) {
-                $propertyGroup = $propertyGroup[0]
+    if (Test-Path $csprojPath) {
+        # Load the csproj file
+        $xml = [xml](Get-Content $csprojPath)
+        
+        # Check if the Version property exists
+        $propertyGroups = $xml.Project.PropertyGroup
+        $modified = $false
+        
+        if ($null -ne $propertyGroups) {
+            # Handle both single PropertyGroup and multiple PropertyGroups
+            if ($propertyGroups -is [array]) {
+                foreach ($propertyGroup in $propertyGroups) {
+                    if ($null -ne $propertyGroup.Version) {
+                        $propertyGroup.RemoveChild($propertyGroup.Version)
+                        $modified = $true
+                    }
+                }
+            } else {
+                if ($null -ne $propertyGroups.Version) {
+                    $propertyGroups.RemoveChild($propertyGroups.Version)
+                    $modified = $true
+                }
+            }
+            
+            # Save the changes if we removed a Version element
+            if ($modified) {
+                $xml.Save($csprojPath)
+                Write-Host "Successfully removed Version element from $csprojPath"
+            } else {
+                Write-Host "No Version element found in $csprojPath"
             }
         }
-        
-        # Create Version element
-        $versionElement = $xml.CreateElement("Version")
-        $versionElement.InnerText = $Version
-        $propertyGroup.AppendChild($versionElement)
     } else {
-        # Update the existing Version element
-        $versionElement.InnerText = $Version
+        Write-Warning "Project file $csprojPath does not exist"
     }
-    
-    # Save the changes
-    $xml.Save($csprojPath)
-    
-    Write-Host "Successfully updated version to $Version in $csprojPath"
 } catch {
-    Write-Error "An error occurred updating the version in csproj: $_"
+    Write-Error "An error occurred removing the version from csproj: $_"
     exit 1
 }
 
