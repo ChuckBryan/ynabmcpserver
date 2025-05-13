@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/ChuckBryan/ynabmcpserver/compare/v1.0.0...v1.1.0) (2025-05-13)
+
+
+### Bug Fixes
+
+* update pre-commit hook to skip tests and add success message ([ced413c](https://github.com/ChuckBryan/ynabmcpserver/commit/ced413c2da23e17503cd312626aa51b42f83a4ba))
+
+
+### Features
+
+* update release workflow and commit-msg hook to skip commitlint for semantic-release ([456d458](https://github.com/ChuckBryan/ynabmcpserver/commit/456d4587cb795010265a14a888f3bdce1e430b41))
+
 # 1.0.0 (2025-05-13)
 
 
