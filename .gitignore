@@ -31,6 +31,12 @@ artifacts/
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
 # NuGet Packages
 *.nupkg
 # NuGet Symbol Packages
