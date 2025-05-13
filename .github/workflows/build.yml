@@ -19,6 +19,9 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Install NSwag CLI
+        run: dotnet tool install -g NSwag.ConsoleCore --version 14.0.3
+
       - name: Restore dependencies
         run: dotnet restore
 
