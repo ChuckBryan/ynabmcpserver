@@ -17,7 +17,8 @@
   "scripts": {
     "commit": "git-cz",
     "semantic-release": "semantic-release",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "echo \"No tests configured yet\""
   },
   "config": {
     "commitizen": {
