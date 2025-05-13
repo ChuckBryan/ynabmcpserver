@@ -19,14 +19,15 @@ try {
       # Update the version in Directory.Build.props before publishing
     # This ensures the container image tag uses the correct version
     $dirBuildPropsPath = Join-Path $PSScriptRoot ".." "Directory.Build.props"
-    $xml = [xml](Get-Content $dirBuildPropsPath)
-    $versionElement = $xml.Project.PropertyGroup.SelectSingleNode("Version")
+    $xml = [xml](Get-Content $dirBuildPropsPath)    $versionElement = $xml.Project.PropertyGroup.SelectSingleNode("Version")
     $versionElement.InnerText = $Version
     $xml.Save($dirBuildPropsPath)
     
     dotnet publish src/YnabMcpServer/YnabMcpServer.csproj `
         --configuration Release `
         -p:DockerUsername=$env:DOCKER_USERNAME `
+        -p:ContainerRegistry=docker.io `
+        /t:PublishContainer `
         --os linux
     
     if ($LASTEXITCODE -ne 0) {
@@ -38,13 +39,14 @@ try {
     Write-Host "Verifying Docker image was created"
     docker images "$env:DOCKER_USERNAME/ynabmcp:$Version"    # Also tag as latest    Write-Host "Running dotnet publish with latest tag"
       # Update the ContainerImageTag to 'latest' in Directory.Build.props
-    $xml = [xml](Get-Content $dirBuildPropsPath)
-    $xml.Project.PropertyGroup.ContainerImageTag = "latest"
+    $xml = [xml](Get-Content $dirBuildPropsPath)    $xml.Project.PropertyGroup.ContainerImageTag = "latest"
     $xml.Save($dirBuildPropsPath)
     
     dotnet publish src/YnabMcpServer/YnabMcpServer.csproj `
         --configuration Release `
         -p:DockerUsername=$env:DOCKER_USERNAME `
+        -p:ContainerRegistry=docker.io `
+        /t:PublishContainer `
         --os linux
     
     if ($LASTEXITCODE -ne 0) {
