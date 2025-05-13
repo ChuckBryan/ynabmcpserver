@@ -130,3 +130,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - [YNAB API](https://api.youneedabudget.com/)
 - [Model Context Protocol](https://modelcontextprotocol.github.io/)
+- [Versioning and Release Process](./VERSIONING.md)
