@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/ChuckBryan/ynabmcpserver/compare/v1.2.0...v1.3.0) (2025-05-13)
+
+
+### Features
+
+* enhance Docker publishing script with environment variable logging and verification steps ([78a5813](https://github.com/ChuckBryan/ynabmcpserver/commit/78a581356178b2d2b8c187748d78f8a07116dd64))
+
 # [1.2.0](https://github.com/ChuckBryan/ynabmcpserver/compare/v1.1.0...v1.2.0) (2025-05-13)
 
 
