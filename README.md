@@ -70,43 +70,18 @@ This MCP server implements a comprehensive set of tools for interacting with the
 
 ### Installation
 
-**VS Code Integration with Docker**
+Click one of these buttons to automatically install the YNAB MCP Server in VS Code:
 
-For VS Code users, a pre-configured `.vscode/mcp.json` file is included that makes it easy to run the server via Docker:
+[![Install in VS Code](https://img.shields.io/badge/Install%20in-VS%20Code-blue?style=for-the-badge&logo=visualstudiocode)](vscode://ms-vscode.mcp/install?url=https://raw.githubusercontent.com/ChuckBryan/ynabmcpserver/main/mcp-manifest.json)
+[![Install in VS Code Insiders](https://img.shields.io/badge/Install%20in-VS%20Code%20Insiders-blue?style=for-the-badge&logo=visualstudiocode)](vscode-insiders://ms-vscode.mcp/install?url=https://raw.githubusercontent.com/ChuckBryan/ynabmcpserver/main/mcp-manifest.json)
 
-1. Open the project in VS Code
-2. Press F5 or use the Run menu to start the server
-3. When prompted, enter your YNAB API token
-4. The server will start in a Docker container automatically
+This will:
 
-The `.vscode/mcp.json` configuration looks like this:
+1. Configure VS Code to use the YNAB MCP Server Docker image
+2. Prompt you for your YNAB API token when needed
+3. Allow you to start the server with F5 or the Run menu
 
-```jsonc
-{
-  "inputs": [
-    {
-      "id": "ynab-api-token",
-      "type": "promptString",
-      "password": true,
-      "description": "Enter your YNAB API Token"
-    }
-  ],
-  "servers": {
-    "ynabmcp": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "YNAB_API_TOKEN=${input:ynab-api-token}",
-        "swampyfox/ynabmcp:latest"
-      ],
-      "env": {}
-    }
-  }
-}
-```
+Once installed, you can start the server by pressing F5 in VS Code or using the Run menu. When prompted, enter your YNAB API token and the server will start automatically in a Docker container.
 
 ### Available Environment Variables
 

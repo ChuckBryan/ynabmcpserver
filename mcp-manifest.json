@@ -1,0 +1,24 @@
+{
+  "inputs": [
+    {
+      "id": "ynab-api-token",
+      "type": "promptString",
+      "password": true,
+      "description": "Enter your YNAB API Token"
+    }
+  ],
+  "servers": {
+    "ynabmcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "YNAB_API_TOKEN=${input:ynab-api-token}",
+        "swampyfox/ynabmcp:latest"
+      ],
+      "env": {}
+    }
+  }
+}
