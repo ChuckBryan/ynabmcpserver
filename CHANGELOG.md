@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/ChuckBryan/ynabmcpserver/compare/v1.1.0...v1.2.0) (2025-05-13)
+
+
+### Features
+
+* bump the feature ([45b8ae1](https://github.com/ChuckBryan/ynabmcpserver/commit/45b8ae1fc6bd744da234b4ba4ffc323bb0d043a4))
+
 # [1.1.0](https://github.com/ChuckBryan/ynabmcpserver/compare/v1.0.0...v1.1.0) (2025-05-13)
 
 
