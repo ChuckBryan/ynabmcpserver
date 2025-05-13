@@ -15,11 +15,15 @@ try {
     Write-Host "Environment variables:"
     Write-Host "DOCKER_USERNAME: $env:DOCKER_USERNAME"
     Write-Host "Docker PAT: [redacted for security]"
-      # Use .NET's built-in container support to publish with the version tag    Write-Host "Running dotnet publish with version tag: $Version"
-      # Update the version in Directory.Build.props before publishing
+    # Use .NET's built-in container support to publish with the version tag    
+    Write-Host "Running dotnet publish with version tag: $Version"
+    
+    # Update the version in Directory.Build.props before publishing
     # This ensures the container image tag uses the correct version
+    
     $dirBuildPropsPath = Join-Path $PSScriptRoot ".." "Directory.Build.props"
-    $xml = [xml](Get-Content $dirBuildPropsPath)    $versionElement = $xml.Project.PropertyGroup.SelectSingleNode("Version")
+    $xml = [xml](Get-Content $dirBuildPropsPath)    
+    $versionElement = $xml.Project.PropertyGroup.SelectSingleNode("Version")
     $versionElement.InnerText = $Version
     $xml.Save($dirBuildPropsPath)
     
@@ -37,9 +41,12 @@ try {
     
     # Verify the image was created
     Write-Host "Verifying Docker image was created"
-    docker images "$env:DOCKER_USERNAME/ynabmcp:$Version"    # Also tag as latest    Write-Host "Running dotnet publish with latest tag"
-      # Update the ContainerImageTag to 'latest' in Directory.Build.props
-    $xml = [xml](Get-Content $dirBuildPropsPath)    $xml.Project.PropertyGroup.ContainerImageTag = "latest"
+    docker images "$env:DOCKER_USERNAME/ynabmcp:$Version"    
+    
+    # Also tag as latest    Write-Host "Running dotnet publish with latest tag"
+     # Update the ContainerImageTag to 'latest' in Directory.Build.props
+    $xml = [xml](Get-Content $dirBuildPropsPath)    
+    $xml.Project.PropertyGroup.ContainerImageTag = "latest"
     $xml.Save($dirBuildPropsPath)
     
     dotnet publish src/YnabMcpServer/YnabMcpServer.csproj `
@@ -61,12 +68,7 @@ try {
     $xml = [xml](Get-Content $dirBuildPropsPath)
     $xml.Project.PropertyGroup.ContainerImageTag = '$(Version)'
     $xml.Save($dirBuildPropsPath)
-    
-    # Try to push the images explicitly to ensure they're uploaded
-    Write-Host "Explicitly pushing Docker images to ensure they're uploaded"
-    docker push "$env:DOCKER_USERNAME/ynabmcp:$Version"
-    docker push "$env:DOCKER_USERNAME/ynabmcp:latest"
-    
+       
     Write-Host "Successfully published Docker image swampyfox/ynabmcp:$Version and swampyfox/ynabmcp:latest"
 } catch {
     Write-Error "An error occurred publishing the Docker image: $_"
