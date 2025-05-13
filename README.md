@@ -135,3 +135,4 @@ This project uses semantic-release for automated versioning and releases. See [V
 - [YNAB API](https://api.youneedabudget.com/)
 - [Model Context Protocol](https://modelcontextprotocol.github.io/)
 - [Semantic Release](https://github.com/semantic-release/semantic-release)
+
