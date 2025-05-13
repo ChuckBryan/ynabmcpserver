@@ -8,16 +8,16 @@
     }
   ],
   "servers": {
-    "ynab": {
-      "command": "dotnet",
+    "ynabmcp": {
+      "command": "docker",
       "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}/src/YnabMcpServer/YnabMcpServer.csproj"
+        "run", 
+        "-i", 
+        "--rm", 
+        "-e", "YNAB_API_TOKEN=${input:ynab-api-token}", 
+        "swampyfox/ynabmcp:1.1.0"
       ],
-      "env": {
-        "YNAB_API_TOKEN": "${input:ynab-api-token}"
-      }
+      "env": {}
     }
   }
 }
