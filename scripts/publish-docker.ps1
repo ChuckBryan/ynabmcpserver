@@ -15,14 +15,18 @@ try {
     Write-Host "Environment variables:"
     Write-Host "DOCKER_USERNAME: $env:DOCKER_USERNAME"
     Write-Host "Docker PAT: [redacted for security]"
-      # Use .NET's built-in container support to publish with the version tag
-    Write-Host "Running dotnet publish with version tag: $Version"
+      # Use .NET's built-in container support to publish with the version tag    Write-Host "Running dotnet publish with version tag: $Version"
+      # Update the version in Directory.Build.props before publishing
+    # This ensures the container image tag uses the correct version
+    $dirBuildPropsPath = Join-Path $PSScriptRoot ".." "Directory.Build.props"
+    $xml = [xml](Get-Content $dirBuildPropsPath)
+    $versionElement = $xml.Project.PropertyGroup.SelectSingleNode("Version")
+    $versionElement.InnerText = $Version
+    $xml.Save($dirBuildPropsPath)
+    
     dotnet publish src/YnabMcpServer/YnabMcpServer.csproj `
         --configuration Release `
-        -p:EnableSdkContainerSupport=true `
-        -p:ContainerRegistry=docker.io `
-        -p:ContainerRepository=$env:DOCKER_USERNAME/ynabmcp `
-        -p:ContainerImageTag=$Version `
+        -p:DockerUsername=$env:DOCKER_USERNAME `
         --os linux
     
     if ($LASTEXITCODE -ne 0) {
@@ -32,14 +36,15 @@ try {
     
     # Verify the image was created
     Write-Host "Verifying Docker image was created"
-    docker images "$env:DOCKER_USERNAME/ynabmcp:$Version"    # Also tag as latest
-    Write-Host "Running dotnet publish with latest tag"
+    docker images "$env:DOCKER_USERNAME/ynabmcp:$Version"    # Also tag as latest    Write-Host "Running dotnet publish with latest tag"
+      # Update the ContainerImageTag to 'latest' in Directory.Build.props
+    $xml = [xml](Get-Content $dirBuildPropsPath)
+    $xml.Project.PropertyGroup.ContainerImageTag = "latest"
+    $xml.Save($dirBuildPropsPath)
+    
     dotnet publish src/YnabMcpServer/YnabMcpServer.csproj `
         --configuration Release `
-        -p:EnableSdkContainerSupport=true `
-        -p:ContainerRegistry=docker.io `
-        -p:ContainerRepository=$env:DOCKER_USERNAME/ynabmcp `
-        -p:ContainerImageTag=latest `
+        -p:DockerUsername=$env:DOCKER_USERNAME `
         --os linux
     
     if ($LASTEXITCODE -ne 0) {
@@ -48,8 +53,12 @@ try {
     }
     
     # Verify the latest image was created
-    Write-Host "Verifying Docker latest image was created"
-    docker images "$env:DOCKER_USERNAME/ynabmcp:latest"
+    Write-Host "Verifying Docker latest image was created"    docker images "$env:DOCKER_USERNAME/ynabmcp:latest"
+    
+    # Restore the version in Directory.Build.props (for next time)
+    $xml = [xml](Get-Content $dirBuildPropsPath)
+    $xml.Project.PropertyGroup.ContainerImageTag = '$(Version)'
+    $xml.Save($dirBuildPropsPath)
     
     # Try to push the images explicitly to ensure they're uploaded
     Write-Host "Explicitly pushing Docker images to ensure they're uploaded"
