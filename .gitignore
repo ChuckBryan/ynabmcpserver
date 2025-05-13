@@ -61,3 +61,12 @@ nunit-*.xml
 **/.env
 **/local.settings.json
 **/secrets.json
+
+# IDE-specific files and directories
+.idea/
+.idea
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
