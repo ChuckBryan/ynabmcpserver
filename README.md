@@ -72,8 +72,8 @@ This MCP server implements a comprehensive set of tools for interacting with the
 
 Click one of these buttons to automatically install the YNAB MCP Server in VS Code:
 
-[![Install in VS Code](https://img.shields.io/badge/Install%20in-VS%20Code-blue?style=for-the-badge&logo=visualstudiocode)](vscode://ms-vscode.mcp/install?url=https://raw.githubusercontent.com/ChuckBryan/ynabmcpserver/main/mcp-manifest.json)
-[![Install in VS Code Insiders](https://img.shields.io/badge/Install%20in-VS%20Code%20Insiders-blue?style=for-the-badge&logo=visualstudiocode)](vscode-insiders://ms-vscode.mcp/install?url=https://raw.githubusercontent.com/ChuckBryan/ynabmcpserver/main/mcp-manifest.json)
+[![Install in VS Code](https://img.shields.io/badge/Install%20in-VS%20Code-007ACC?style=flat-square&logo=visualstudiocode)](vscode://ms-vscode.mcp/install?url=https://raw.githubusercontent.com/ChuckBryan/ynabmcpserver/main/mcp-manifest.json)
+[![Install in VS Code Insiders](https://img.shields.io/badge/Install%20in-VS%20Code%20Insiders-3EA055?style=flat-square&logo=visualstudiocode)](vscode-insiders://ms-vscode.mcp/install?url=https://raw.githubusercontent.com/ChuckBryan/ynabmcpserver/main/mcp-manifest.json)
 
 This will:
 
