@@ -22,6 +22,12 @@ jobs:
       - name: Install NSwag CLI
         run: dotnet tool install -g NSwag.ConsoleCore --version 14.0.3
 
+      - name: Add dotnet tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Verify NSwag installation
+        run: nswag version
+
       - name: Restore dependencies
         run: dotnet restore
 
