@@ -157,22 +157,7 @@ Let's break down what each part of this configuration does:
 
 This configuration provides a completely automated workflow: when commits are pushed to the main branch, semantic-release analyzes them, determines if a new version is needed, generates the changelog, updates the version in .NET project files, commits these changes back to the repository, creates a GitHub release, and publishes a Docker image—all without manual intervention.
 
-For commit linting, I use a separate configuration:
-
-```javascript
-// commitlint.config.js
-module.exports = {
-  extends: ["@commitlint/config-conventional"],
-  rules: {
-    "body-max-line-length": [2, "always", 100],
-    "footer-max-line-length": [2, "always", 100],
-    "header-max-length": [2, "always", 100],
-    "scope-case": [2, "always", "lower-case"],
-  },
-};
-```
-
-This ensures all commits are properly linted and adhere to the conventional commits standard.
+One of the most important steps in this process is that semantic-release automatically tags the code in your repository with the new version number for each release. These Git tags serve as official version markers in your source history, making it easy to reference, roll back, or compare releases. This tagging is handled transparently as part of the release workflow, ensuring every published version is traceable and consistent with the codebase at the time of release.
 
 ### Updating Version Information in .NET Projects
 
