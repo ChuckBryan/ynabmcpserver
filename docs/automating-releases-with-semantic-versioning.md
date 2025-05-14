@@ -1,6 +1,6 @@
 # Automating YNAB MCP Server Releases with GitHub Actions and Semantic Versioning
 
-*Date: May 14, 2025*
+_Date: May 14, 2025_
 
 In my [previous article](building-ynab-mcp-server-blog.md), I walked through the development of an MCP server for YNAB using .NET 9 and AI-powered development. Now, let's dive into how I automated the release process using GitHub Actions, semantic versioning, and Docker Hub deployment to make the project sustainable and professional.
 
@@ -99,13 +99,13 @@ Here's the semantic-release configuration I used:
 ```javascript
 // commitlint.config.js
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  extends: ["@commitlint/config-conventional"],
   rules: {
-    'body-max-line-length': [2, 'always', 100],
-    'footer-max-line-length': [2, 'always', 100],
-    'header-max-length': [2, 'always', 100],
-    'scope-case': [2, 'always', 'lower-case']
-  }
+    "body-max-line-length": [2, "always", 100],
+    "footer-max-line-length": [2, "always", 100],
+    "header-max-length": [2, "always", 100],
+    "scope-case": [2, "always", "lower-case"],
+  },
 };
 ```
 
@@ -160,34 +160,34 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 9.0.x
-          
+
       - name: Install dependencies
         run: dotnet restore
-        
+
       - name: Build
         run: dotnet build --configuration Release --no-restore
-        
+
       - name: Test
         run: dotnet test --no-restore
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          
+
       - name: Install semantic-release
         run: npm install
-        
+
       - name: Run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
-        
+
       - name: Build and publish Docker image
         if: steps.release.outputs.new_release_published == 'true'
         env:
@@ -268,13 +268,13 @@ The CHANGELOG.md file is automatically generated and updated with each release, 
 
 ### Features
 
-* **api:** add GetCategoryDetails endpoint (#123)
-* **analysis:** implement income vs expense summary tool (#125)
+- **api:** add GetCategoryDetails endpoint (#123)
+- **analysis:** implement income vs expense summary tool (#125)
 
 ### Bug Fixes
 
-* handle null budget response from YNAB API (#124)
-* correct date format in transaction search (#126)
+- handle null budget response from YNAB API (#124)
+- correct date format in transaction search (#126)
 
 ## [1.1.0] - 2025-04-15
 
@@ -326,4 +326,4 @@ If you're managing a similar project, I highly recommend investing the time to s
 
 ---
 
-*The full source code for the YNAB MCP Server, including all automation scripts and workflows, is available on [GitHub](https://github.com/ChuckBryan/YnabMcpServer) under the MIT license.*
+_The full source code for the YNAB MCP Server, including all automation scripts and workflows, is available on [GitHub](https://github.com/ChuckBryan/YnabMcpServer) under the MIT license._

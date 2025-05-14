@@ -1,6 +1,6 @@
 # Building a YNAB MCP Server with AI and .NET 9
 
-*Date: May 14, 2025*
+_Date: May 14, 2025_
 
 AI assistants are getting smarter every day, but they're limited by what they can access. I wanted to bridge that gap for my personal finance data, so I built an MCP (Model Context Protocol) server that connects YNAB (You Need A Budget) to AI assistants like Claude. In this article, I'll walk through how I did it using AI-powered development, .NET 9, and Docker.
 
@@ -41,7 +41,52 @@ First, I downloaded the OpenAPI specification from YNAB and stored it in my proj
 
 With this knowledge, Copilot could suggest accurate implementations whenever I was working with the YNAB API.
 
-### 2. Learning MCP Server Development
+### 2. Creating Custom Instructions with copilot-instructions.md
+
+Beyond just having the API documentation in the repository, I created a dedicated `.github/copilot-instructions.md` file to provide explicit guidance to GitHub Copilot. This special file functions as a project-specific instruction set for AI coding assistance.
+
+#### What is copilot-instructions.md?
+
+The `copilot-instructions.md` file is a repository-level configuration file that GitHub Copilot reads to understand the context, goals, and technical requirements of a project. Unlike regular documentation that's written for humans, this file is specifically designed to "teach" Copilot about your project so it can generate more relevant and accurate code suggestions.
+
+When placed in the `.github` directory of your repository, Copilot automatically discovers and processes these instructions, applying them to all code suggestions throughout the project.
+
+Here's the file I created for the YNAB MCP Server:
+
+```markdown
+# GitHub Copilot Custom Instructions
+
+This file provides custom instructions for GitHub Copilot in this repository.
+
+## Reference
+
+- [Model Context Protocol SDK](https://github.com/modelcontextprotocol/create-python-server)
+
+Add any additional instructions or guidelines for Copilot usage below.
+
+- I am building an MCP Server using .NET that will interact with YNAB's API.
+- This will be the YnabMcpServer
+- use the /docs/mcp.md for quickstart instructions on how to create an MCP Server using C#.
+- One alteration to the mcp.md is that we should use .NET 9 and not .NET 8
+- use the /docs/ynabapi.md for the details of the features of the ynab api.
+- use the /docs/open_api_spec.yml to generate the http client.
+- use the EnableSdkContainerSupport in the CSPROJ so that I do not need a docker file
+```
+
+#### How It Benefits Development
+
+This approach transformed my development workflow in several ways:
+
+- **Project-Specific Context**: Provides Copilot with clear understanding of the project's goals, architecture, and constraints
+- **Documentation References**: Points Copilot to the specific files it should use as knowledge sources
+- **Technology Preferences**: Specifies exact technologies and versions (like .NET 9 instead of .NET 8)
+- **Architectural Decisions**: Communicates important design choices (like using SDK Container Support)
+- **Consistency**: Creates uniform code suggestions that align with project standards across all development sessions
+- **Reduced Cognitive Load**: I didn't need to repeatedly instruct Copilot about project details in each coding session
+
+By explicitly telling Copilot how to interpret the documentation and what technologies to prefer, I significantly improved the quality and relevance of its suggestions. Instead of generic C# code, Copilot generated MCP-specific implementations with proper YNAB API integration. This proved to be a crucial step in streamlining the development process, essentially turning Copilot into a specialized assistant for this particular project.
+
+### 3. Learning MCP Server Development
 
 Next, I gathered documentation from [ModelContextProtocol.io](https://modelcontextprotocol.github.io/) on how to build an MCP server in C#. The quickstart guide was particularly helpful, showing how to:
 
@@ -52,7 +97,7 @@ Next, I gathered documentation from [ModelContextProtocol.io](https://modelconte
 
 I saved these resources in my `/docs` folder, making them available to Copilot when I needed implementation suggestions.
 
-### 3. The Development Process
+### 4. The Development Process
 
 With Copilot trained on both the YNAB API and MCP server patterns, the development process became remarkably fluid:
 
@@ -61,6 +106,7 @@ With Copilot trained on both the YNAB API and MCP server patterns, the developme
 2. **API client generation**: Using the OpenAPI spec, we generated a strongly-typed C# client for the YNAB API.
 
 3. **MCP tools implementation**: For each YNAB feature I wanted to expose:
+
    - I described the function in natural language
    - Copilot suggested a method signature and implementation
    - I refined the code and added proper error handling
@@ -106,22 +152,26 @@ These methods become the functions that AI assistants can call when connected to
 The server exposes a comprehensive set of YNAB functionality:
 
 **User and Budget Information**:
+
 - Retrieve user information
 - List all budgets
 - Get detailed budget information
 - Browse budget months
 
 **Categories and Transactions**:
+
 - List all budget categories
 - Get category details
 - Search transactions with filters
 - Browse account transactions
 
 **Accounts and Payees**:
+
 - List all accounts
 - List all payees
 
 **Financial Analysis**:
+
 - Get current month budget snapshots
 - Generate activity summaries
 - Compare income versus expenses
@@ -201,4 +251,4 @@ If you're interested in trying it out yourself or contributing to the project, c
 
 ---
 
-*This project was developed using .NET 9, the Model Context Protocol, and the YNAB API. All code is available under the MIT license.*
+_This project was developed using .NET 9, the Model Context Protocol, and the YNAB API. All code is available under the MIT license._
