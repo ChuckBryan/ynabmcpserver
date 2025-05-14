@@ -2,11 +2,11 @@
 
 _Date: May 14, 2025_
 
-AI assistants are getting smarter every day, but they're limited by what they can access. I wanted to bridge that gap for my personal finance data, so I built an MCP (Model Context Protocol) server that connects YNAB (You Need A Budget) to AI assistants like Claude. In this article, I'll walk through how I did it using AI-powered development, .NET 9, and Docker.
+AI agents are getting smarter every day, but they're limited by what they can access. I wanted to bridge that gap for my personal finance data, so I built an MCP (Model Context Protocol) server that connects YNAB (You Need A Budget) to AI agents like GitHub Copilot. In this article, I'll walk through how I did it using AI-powered development, .NET 9, and Docker.
 
 ## What is MCP and Why Does It Matter?
 
-The Model Context Protocol (MCP) is a standard that enables AI models to interact with external services in a structured, secure way. It's what allows AI assistants to:
+The Model Context Protocol (MCP) is a standard that enables AI models to interact with external services in a structured, secure way. It's what allows AI agents to:
 
 - Access your real-time data (beyond their training cutoff dates)
 - Call functions in your apps and services
@@ -24,26 +24,25 @@ My goal was to create a server that:
 3. Keeps sensitive data and API tokens secure
 4. Is easy to install and use
 
-The resulting [YNAB MCP Server](https://github.com/ChuckBryan/ynabmcpserver) does exactly that. It provides a comprehensive set of tools for budget analysis, transaction searching, account management, and financial insights—all available directly through AI assistants that support MCP.
+The resulting [YNAB MCP Server](https://github.com/ChuckBryan/ynabmcpserver) does exactly that. It provides a comprehensive set of tools for budget analysis, transaction searching, account management, and financial insights. And it's all available directly through AI agents that support MCP.
+
+## Security Considerations
+
+When dealing with financial data, security is paramount. The YNAB MCP Server is designed to run locally on your machine, ensuring that sensitive information never leaves your environment. The YNAB API token is stored as an environment variable, and the server communicates directly with YNAB without any third-party intermediaries.
+
+This means your financial data is only transmitted during secure, active MCP sessions. The system is designed not to store this data, and no logs are kept. However, be aware and consider your choice of AI provider. You should prefer those with data retention disabled or use self-hosted models to maximize privacy.
+
+If you are using MCP in general, always be mindful of what data you are sending to the AI provider. Never send personally identifiable information (PII) or other sensitive data unless you are certain it is safe and compliant. Make sure you know and understand your organization's rules and policies regarding AI usage before transmitting any data.
 
 ## Using AI to Accelerate Development
 
 What made this project particularly interesting was using AI tools like GitHub Copilot to accelerate the development process. Here's how I approached it:
 
-### 1. Teaching Copilot About the YNAB API
+Before diving into code, it's crucial to define your custom instructions for Copilot early and update them as your project evolves. This ensures you get the most relevant and high-quality AI suggestions throughout development.
 
-First, I downloaded the OpenAPI specification from YNAB and stored it in my project's `/docs` folder. This gave Copilot a detailed understanding of:
+### 1. Creating Custom Instructions with copilot-instructions.md
 
-- All available endpoints
-- Request and response formats
-- Authentication requirements
-- Data models and structures
-
-With this knowledge, Copilot could suggest accurate implementations whenever I was working with the YNAB API.
-
-### 2. Creating Custom Instructions with copilot-instructions.md
-
-Beyond just having the API documentation in the repository, I created a dedicated `.github/copilot-instructions.md` file to provide explicit guidance to GitHub Copilot. This special file functions as a project-specific instruction set for AI coding assistance.
+Rather than relying solely on documentation, I created a dedicated `.github/copilot-instructions.md` file to provide explicit guidance to GitHub Copilot. This special file functions as a project-specific instruction set for AI coding assistance.
 
 #### What is copilot-instructions.md?
 
@@ -60,7 +59,7 @@ This file provides custom instructions for GitHub Copilot in this repository.
 
 ## Reference
 
-- [Model Context Protocol SDK](https://github.com/modelcontextprotocol/create-python-server)
+- [Model Context Protocol SDK](https://modelcontextprotocol.io/quickstart/server#c)
 
 Add any additional instructions or guidelines for Copilot usage below.
 
@@ -86,13 +85,23 @@ This approach transformed my development workflow in several ways:
 
 By explicitly telling Copilot how to interpret the documentation and what technologies to prefer, I significantly improved the quality and relevance of its suggestions. Instead of generic C# code, Copilot generated MCP-specific implementations with proper YNAB API integration. This proved to be a crucial step in streamlining the development process, essentially turning Copilot into a specialized assistant for this particular project.
 
-### 3. Learning MCP Server Development
+### 2. Training Copilot on the YNAB API
+
+After defining my custom instructions, I downloaded the OpenAPI specification from YNAB and stored it in my project's `/docs` folder. This gave Copilot a detailed understanding of:
+
+- All available endpoints
+- Request and response formats
+- Authentication requirements
+- Data models and structures
+
+With this knowledge, Copilot could suggest accurate implementations whenever I was working with the YNAB API.
+
+### 3. Training Copilot on MCP Server Development
 
 Next, I gathered documentation from [ModelContextProtocol.io](https://modelcontextprotocol.github.io/) on how to build an MCP server in C#. The quickstart guide was particularly helpful, showing how to:
 
 - Structure an MCP server project
 - Implement and expose tools
-- Handle authentication and configuration
 - Document functions for AI consumption
 
 I saved these resources in my `/docs` folder, making them available to Copilot when I needed implementation suggestions.
@@ -103,34 +112,20 @@ With Copilot trained on both the YNAB API and MCP server patterns, the developme
 
 1. **Project scaffolding**: Copilot helped create the initial project structure and .NET 9 configuration.
 
-2. **API client generation**: Using the OpenAPI spec, we generated a strongly-typed C# client for the YNAB API.
+2. **API client generation**: Using the OpenAPI spec, I generated a strongly-typed C# client for the YNAB API.
 
-3. **MCP tools implementation**: For each YNAB feature I wanted to expose:
+3. **MCP tools implementation**: I instructed Copilot to build out the MCP Tools based on the YNAB API. Copilot generated the initial implementations for each tool, which I then reviewed and manually tested to ensure correctness and reliability. This workflow allowed me to quickly scaffold a comprehensive set of features, while still maintaining high code quality through hands-on validation.
 
-   - I described the function in natural language
-   - Copilot suggested a method signature and implementation
-   - I refined the code and added proper error handling
+4. **Configuration and security**: A secure approach was implemented for handling the YNAB API token through environment variables.
 
-4. **Configuration and security**: We implemented a secure approach for handling the YNAB API token through environment variables.
-
-5. **Docker packaging**: Configured the project to support SDK Container Support for easy Docker deployment.
+5. **Docker packaging**: The project was configured to support SDK Container Support for easy Docker deployment.
+   Private financial data is transmitted only during secure, active MCP sessions. The system is designed not to store this data, and no logs are kept. Be aware and consider your choice of AI provider—prefer those with data retention disabled or use self-hosted models to maximize privacy.
 
 The result was development at a pace that would have been impossible without AI assistance.
 
 ## Key Implementation Details
 
-### Project Structure
-
-The server follows a clean architecture:
-
-```
-YnabMcpServer/
-├── Configuration/   # API configuration settings
-├── Generated/       # Auto-generated API client code
-├── Services/        # Core services for interacting with YNAB
-├── Tools/           # MCP tool implementations
-└── Program.cs       # Application entry point
-```
+Below are some of the most important technical aspects and design choices that made the YNAB MCP Server robust, maintainable, and easy to use.
 
 ### MCP Tools Interface
 
@@ -145,7 +140,7 @@ public Task<BudgetDetailResponse> GetBudgetDetails(string budgetId)
 }
 ```
 
-These methods become the functions that AI assistants can call when connected to your MCP server.
+These methods become the functions that AI agents can call when connected to your MCP server.
 
 ### Features Implemented
 
@@ -198,7 +193,7 @@ When connecting financial data to AI systems, security is paramount. The YNAB MC
 
 3. **No third-party sharing**: The server communicates directly between YNAB and the AI client, with no intermediaries.
 
-4. **Private data**: Financial data is only shared during active MCP sessions and isn't stored by the AI provider.
+4. **Private data**: Private financial data is transmitted only during secure, active MCP sessions. Our system is designed not to store this data, and we do not log it. Be aware and consider your choice of AI provider. You should prefer those with data retention disabled or use self-hosted models to maximize privacy.
 
 ## Using the YNAB MCP Server
 
@@ -207,7 +202,7 @@ Once installed, using the server is simple:
 1. Click one of the installation buttons in the README.
 2. When prompted, enter your YNAB API token.
 3. Start the server with F5 or through the Run menu in VS Code.
-4. Connect your MCP-compatible AI client (like Claude for Desktop).
+4. Connect your MCP-compatible AI client (refer to your AI client's documentation for MCP support).
 
 Now your AI assistant can access and analyze your YNAB data. You can ask questions like:
 
@@ -232,20 +227,11 @@ Building this MCP server taught me several valuable lessons:
 
 5. **.NET 9 container support is excellent**: The new SDK container support streamlined the Docker packaging process.
 
-## Next Steps
-
-While the current implementation covers most YNAB functionality, there's always room for improvement:
-
-- Adding more analytical tools (spending trends, budget optimization suggestions)
-- Supporting webhook notifications for real-time updates
-- Implementing caching to improve performance
-- Adding visualization capabilities for charts and graphs
-
 ## Conclusion
 
-Building an MCP server for YNAB demonstrates the power of connecting AI assistants to our personal data in secure, structured ways. By leveraging AI tools like GitHub Copilot during development, even complex integration projects become more manageable.
+Building an MCP server for YNAB demonstrates the power of connecting AI agents to our personal data in secure, structured ways. By leveraging AI tools like GitHub Copilot during development, even complex integration projects become more manageable.
 
-The combination of MCP, .NET 9, and Docker creates a powerful, accessible bridge between AI assistants and personal finance data—helping users get more value from both their YNAB subscription and their AI tools.
+The combination of MCP, .NET 9, and Docker creates a powerful, accessible bridge between AI agents and personal finance data—helping users get more value from both their YNAB subscription and their AI tools.
 
 If you're interested in trying it out yourself or contributing to the project, check out the [GitHub repository](https://github.com/ChuckBryan/ynabmcpserver) or try the one-click installation through VS Code.
 

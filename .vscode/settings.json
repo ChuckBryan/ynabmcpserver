@@ -1,0 +1,7 @@
+{
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "Use conventional commit message format. The commit header should  be less that 100 characters. Place details in the body of the commit message. Use emojis to make it fun and lively."
+    }
+  ]
+}

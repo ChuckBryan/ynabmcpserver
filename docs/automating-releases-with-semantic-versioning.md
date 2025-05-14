@@ -295,7 +295,7 @@ The `EnableSdkContainerSupport` property in the csproj file eliminates the need 
 </PropertyGroup>
 ```
 
-This streamlined approach means I don't need to maintain a separate Dockerfile or worry about containerization details—.NET 9 handles it all.
+This streamlined approach means I don't need to maintain a separate Dockerfile or worry about containerization details. Just let.NET 9 handle it.
 
 ## Benefits of This Approach
 
