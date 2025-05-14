@@ -1,5 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
 
 # Skip tests for now since they're not set up yet
 echo "Pre-commit hook executed successfully"
