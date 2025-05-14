@@ -57,32 +57,45 @@ This structured approach provides several benefits:
 2. **Automatic versioning**: Tools can analyze commits to determine the appropriate version bump
 3. **Automatic changelog**: Well-structured commits can be automatically compiled into readable changelogs
 
-### Using Commitizen for Consistent Formatting
+### Project Setup with Development Dependencies
 
-To enforce this structure, I added [Commitizen](https://github.com/commitizen/cz-cli) to the project. This command-line tool prompts developers for standardized commit information:
+To implement the automated release pipeline, I first set up the necessary dependencies in my project. Here are the key packages that power the automation:
+
+- **commitizen** and **cz-conventional-changelog**: Provide an interactive CLI for creating properly formatted commit messages
+- **@commitlint/cli** and **@commitlint/config-conventional**: Enforce commit message formatting rules
+- **semantic-release**: Automates version management based on commit history
+- **@semantic-release/changelog**: Generates and updates the CHANGELOG.md file
+- **@semantic-release/exec**: Allows running custom scripts during the release process
+- **@semantic-release/git**: Commits updated files back to the repository
+- **husky**: Sets up Git hooks for pre-commit validation
+
+I also added useful npm scripts in package.json:
 
 ```json
-// package.json excerpt
-{
-  "devDependencies": {
-    "commitizen": "^4.3.0",
-    "cz-conventional-changelog": "^3.3.0"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  }
+"scripts": {
+  "commit": "git-cz",
+  "semantic-release": "semantic-release"
 }
 ```
 
-Now, instead of using `git commit`, developers run:
+### Using Commitizen for Consistent Formatting
+
+With Commitizen configured in the project, creating properly formatted commits becomes straightforward. Instead of using the standard `git commit` command, team members run:
 
 ```powershell
-npx cz
+npm run commit
 ```
 
-This interactive prompt ensures all commits follow the conventional structure, eliminating inconsistencies and training new contributors on the correct format.
+This executes the `git-cz` command defined in the package.json scripts section, launching an interactive prompt that guides developers through creating a conventional commit message:
+
+1. First, select the type of change (feat, fix, docs, etc.)
+2. Then enter the scope (optional)
+3. Provide a short description
+4. Add a longer description if needed
+5. Indicate if it's a breaking change
+6. Reference issues being closed
+
+This interactive approach ensures all commits follow the conventional structure, eliminating inconsistencies and training new contributors on the correct format.
 
 ## Semantic Versioning Automation with semantic-release
 
@@ -94,7 +107,57 @@ With a foundation of conventional commits in place, I implemented [semantic-rele
 
 ### Configuring semantic-release
 
-Here's the semantic-release configuration I used:
+The semantic-release configuration is defined in a `.releaserc.json` file at the root of the repository:
+
+```json
+// .releaserc.json
+{
+  "branches": ["main"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "pwsh -File ./scripts/update-version.ps1 ${nextRelease.version}",
+        "publishCmd": "pwsh -File ./scripts/publish-docker.ps1 ${nextRelease.version}"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "package.json", "Directory.Build.props"],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    "@semantic-release/github"
+  ]
+}
+```
+
+Let's break down what each part of this configuration does:
+
+1. **branches**: Specifies that releases should only be created from the `main` branch.
+
+2. **plugins**: The series of plugins that control the release process:
+   - `@semantic-release/commit-analyzer`: Analyzes commits to determine the version bump type (patch, minor, major).
+   - `@semantic-release/release-notes-generator`: Generates release notes based on commit messages.
+   - `@semantic-release/changelog`: Updates the CHANGELOG.md file with the new release notes.
+   - `@semantic-release/exec`: Executes custom commands at specific points in the release process:
+     - `prepareCmd`: Runs the update-version.ps1 script with the new version number to update Directory.Build.props.
+     - `publishCmd`: Runs the publish-docker.ps1 script to build and publish the Docker image with the appropriate tag.
+   - `@semantic-release/git`: Commits the updated files back to the repository with a standardized release message.
+   - `@semantic-release/github`: Creates a GitHub release with the generated release notes.
+
+This configuration provides a completely automated workflow: when commits are pushed to the main branch, semantic-release analyzes them, determines if a new version is needed, generates the changelog, updates the version in .NET project files, commits these changes back to the repository, creates a GitHub release, and publishes a Docker image—all without manual intervention.
+
+For commit linting, I use a separate configuration:
 
 ```javascript
 // commitlint.config.js
@@ -113,7 +176,7 @@ This ensures all commits are properly linted and adhere to the conventional comm
 
 ### Updating Version Information in .NET Projects
 
-For .NET projects, we need to update the version in the `Directory.Build.props` file. I created a custom plugin that integrates with semantic-release to update this automatically:
+For .NET projects, we need to update the version in the `Directory.Build.props` file. I created a PowerShell script (update-version.ps1) that integrates with semantic-release to update this automatically:
 
 ```xml
 <!-- Directory.Build.props -->
@@ -128,7 +191,7 @@ For .NET projects, we need to update the version in the `Directory.Build.props` 
 </Project>
 ```
 
-When semantic-release determines a new version, it updates this file automatically, ensuring all assemblies and packages reference the correct version.
+When semantic-release determines a new version, it calls my update-version.ps1 script to modify this file, ensuring all assemblies and packages reference the correct version.
 
 ## Automating Everything with GitHub Actions
 
