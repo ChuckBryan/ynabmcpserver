@@ -5,6 +5,7 @@ A Model Context Protocol (MCP) server for integrating YNAB (You Need A Budget) w
 [![Build](https://github.com/ChuckBryan/ynabmcpserver/actions/workflows/build.yml/badge.svg)](https://github.com/ChuckBryan/ynabmcpserver/actions/workflows/build.yml)
 [![Docker Image](https://img.shields.io/docker/v/swampyfox/ynabmcp?label=docker&sort=semver&style=flat-square)](https://hub.docker.com/r/swampyfox/ynabmcp)
 [![Platform](https://img.shields.io/badge/platform-linux%2Famd64%20%7C%20linux%2Farm64-lightgrey?style=flat-square)](https://hub.docker.com/r/swampyfox/ynabmcp/tags)
+[![smithery badge](https://smithery.ai/badge/@ChuckBryan/ynabmcpserver)](https://smithery.ai/server/@ChuckBryan/ynabmcpserver)
 
 ## What is MCP?
 
@@ -69,6 +70,14 @@ This MCP server implements a comprehensive set of tools for interacting with the
   - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) (for local installation)
 
 ### Installation
+
+#### Installing via Smithery
+
+To install YNAB Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@ChuckBryan/ynabmcpserver):
+
+```bash
+npx -y @smithery/cli install @ChuckBryan/ynabmcpserver --client claude
+```
 
 Click one of these buttons to automatically install the YNAB MCP Server in VS Code:
 
@@ -135,4 +144,3 @@ This project uses semantic-release for automated versioning and releases. See [V
 - [YNAB API](https://api.youneedabudget.com/)
 - [Model Context Protocol](https://modelcontextprotocol.github.io/)
 - [Semantic Release](https://github.com/semantic-release/semantic-release)
-
